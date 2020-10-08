@@ -1,3 +1,28 @@
+<?php
+
+include_once "../app/model/Usuario.php";
+include_once "../app/controller/UsuarioController.php";
+
+$usuario = new \model\Usuario();
+
+/*if (isset($_GET['id'])){
+    $cliente = \controller\ClienteController::getInstance()->buscarCliente($_GET['id']);
+}*/
+
+if (isset($_POST['gravar'])){
+    //$usuario->setId("0".$_POST['id']);
+    $usuario->setNome($_POST['nome']);
+    $usuario->setSobrenome($_POST['sobrenome']);
+    $usuario->setEmail($_POST['email']);
+    $usuario->setPassword(md5($_POST['password']));
+
+    if (\controller\UsuarioController::getInstance()->gravar($usuario)){
+        header('Location: login.php');
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,24 +62,24 @@
                         <form class="user" method="post" action="#">
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Primeiro nome">
+                                    <input type="text" name="nome" class="form-control form-control-user" id="exampleFirstName" placeholder="Primeiro nome">
                                 </div>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Último nome">
+                                    <input type="text" name="sobrenome" class="form-control form-control-user" id="exampleLastName" placeholder="Último nome">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Endereço de email">
+                                <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Endereço de email">
                             </div>
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
-                                    <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
+                                    <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="password" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Repita a senha">
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                            <button type="submit" name="gravar" class="btn btn-primary btn-user btn-block">
                                 Registre a conta
                             </button>
                         </form>

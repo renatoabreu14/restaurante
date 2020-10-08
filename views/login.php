@@ -1,5 +1,32 @@
 <?php
-echo md5("123456");
+session_start();
+
+include_once "../app/model/Usuario.php";
+include_once "../app/controller/UsuarioController.php";
+
+$usuario = new \model\Usuario();
+$usuarioLogado = new \model\Usuario();
+
+/*if (isset($_GET['id'])){
+    $cliente = \controller\ClienteController::getInstance()->buscarCliente($_GET['id']);
+}*/
+
+if (isset($_POST['login'])){
+    $usuario->setEmail($_POST['email']);
+    $usuario->setPassword(md5($_POST['password']));
+
+    $usuarioLogado = \controller\UsuarioController::getInstance()->login($usuario);
+
+    if ($usuarioLogado->getNome() != null){
+        $_SESSION['usuario'] = serialize($usuarioLogado);
+        header('Location: listaClientes.php');
+    }
+
+    /*if (\controller\UsuarioController::getInstance()->login($usuario)){
+        header('Location: login.php');
+    }*/
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,14 +69,23 @@ echo md5("123456");
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Seja bem vindo!</h1>
                                 </div>
+                                <?php
+                                    if (($usuarioLogado->getNome() == null) && isset($_POST['login'])){
+                                        echo "<div class=\"card mb-4 py-3 border-bottom-danger\">
+                                                <div class=\"card-body\">
+                                                    Usuário ou senha inválidos!
+                                                </div>
+                                            </div>";
+                                    }
+                                ?>
                                 <form class="user" method="post" action="#">
                                     <div class="form-group">
-                                        <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Entre com seu email">
+                                        <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Entre com seu email">
                                     </div>
                                     <div class="form-group">
-                                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
+                                        <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Senha">
                                     </div>
-                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    <button type="submit" name="login" class="btn btn-primary btn-user btn-block">
                                         Login
                                     </button>
                                 </form>

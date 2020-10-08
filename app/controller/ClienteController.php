@@ -60,7 +60,7 @@ class ClienteController{
         $sql = "SELECT * FROM cliente ORDER BY nome";
         $p_sql = $this->conexao->query($sql, \PDO::FETCH_ASSOC);
         foreach ($p_sql as $row){
-            $cliente = $this->preencherDadosCliente($row);
+            $cliente = $this->preencherDados($row);
             $lstCliente[] = $cliente;
         }
         return $lstCliente;
@@ -74,12 +74,12 @@ class ClienteController{
         $p_sql->execute();
         $retornoSQL = $p_sql->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($retornoSQL as $row){
-            $cliente = $this->preencherDadosCliente($row);
+            $cliente = $this->preencherDados($row);
         }
         return $cliente;
     }
 
-    private function preencherDadosCliente($row){
+    private function preencherDados($row){
         $cliente = new Cliente();
         $cliente->setId($row['id']);
         $cliente->setNome($row['nome']);
