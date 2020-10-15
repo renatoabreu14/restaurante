@@ -63,10 +63,9 @@ if (isset($_POST['gravar'])){
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item">
-            <a class="nav-link" href="listaClientes.php">
-                <span>Clientes</span></a>
-        </li>
+        <?php
+            include_once "menu.php";
+        ?>
 
 
         <!-- Sidebar Toggler (Sidebar) -->

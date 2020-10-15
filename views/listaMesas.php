@@ -1,18 +1,18 @@
 <?php
 include_once "verificarSessao.php";
-include_once "../app/model/Cliente.php";
+include_once "../app/model/Mesa.php";
 include_once "../app/model/Usuario.php";
-include_once "../app/controller/ClienteController.php";
+include_once "../app/controller/MesaController.php";
 
 if (isset($_GET['id'])){
-    if (\controller\ClienteController::getInstance()->excluir($_GET['id'])){
-        echo "<b>Cliente excluído com sucesso</b>";
+    if (\controller\MesaController::getInstance()->excluir($_GET['id'])){
+        echo "<b>Mesa excluída com sucesso</b>";
     }
 }
 
 $usuarioLogado = unserialize($_SESSION['usuario']);
 
-$listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
+$listaMesas = \controller\MesaController::getInstance()->retornaTodos();
 
 ?>
 <!DOCTYPE html>
@@ -58,7 +58,7 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
 
         <!-- Nav Item - Dashboard -->
         <?php
-            include_once "menu.php";
+        include_once "menu.php";
         ?>
 
 
@@ -262,28 +262,28 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <h2>Listagem de Clientes</h2>
-                <p><a href="cadastroCliente.php" class="btn btn-success">Novo Cliente</a></p>
+                <h2>Listagem de Mesas</h2>
+                <p><a href="cadastroMesa.php" class="btn btn-success">Nova Mesa</a></p>
                 <table class="table table-hover">
                     <thead>
                     <tr>
                         <th>id</th>
-                        <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>Email</th>
+                        <th>Descricao</th>
+                        <th>Lugares</th>
+                        <th>Posição</th>
                         <th>-</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($listaClientes as $cliente){
+                    foreach ($listaMesas as $mesa){
                         echo "<tr>";
-                        echo "<td>".$cliente->getId()."</td>";
-                        echo "<td>".$cliente->getNome()."</td>";
-                        echo "<td>".$cliente->getTelefone()."</td>";
-                        echo "<td>".$cliente->getEmail()."</td>";
-                        echo "<td><a href='listaClientes.php?id=".$cliente->getId()."' class='btn btn-danger'>Excluir</a>&nbsp;
-                                <a href='cadastroCliente.php?id=".$cliente->getId()."' class='btn btn-dark'>Editar</a></td>";
+                        echo "<td>".$mesa->getId()."</td>";
+                        echo "<td>".$mesa->getDescricao()."</td>";
+                        echo "<td>".$mesa->getLugares()."</td>";
+                        echo "<td>".$mesa->getPosicao()."</td>";
+                        echo "<td><a href='listaMesas.php?id=".$mesa->getId()."' class='btn btn-danger'>Excluir</a>&nbsp;
+                                <a href='cadastroMesa.php?id=".$mesa->getId()."' class='btn btn-dark'>Editar</a></td>";
                         echo "</tr>";
                     }
                     ?>

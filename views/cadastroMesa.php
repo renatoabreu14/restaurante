@@ -1,18 +1,24 @@
 <?php
 include_once "verificarSessao.php";
-include_once "../app/model/Cliente.php";
-include_once "../app/model/Usuario.php";
-include_once "../app/controller/ClienteController.php";
+include_once "../app/model/Mesa.php";
+include_once "../app/controller/MesaController.php";
+
+$mesa = new \model\Mesa();
 
 if (isset($_GET['id'])){
-    if (\controller\ClienteController::getInstance()->excluir($_GET['id'])){
-        echo "<b>Cliente excluído com sucesso</b>";
-    }
+    $mesa = \controller\MesaController::getInstance()->buscarMesa($_GET['id']);
 }
 
-$usuarioLogado = unserialize($_SESSION['usuario']);
+if (isset($_POST['gravar'])){
+    $mesa->setId("0".$_POST['id']);
+    $mesa->setDescricao($_POST['descricao']);
+    $mesa->setLugares($_POST['lugares']);
+    $mesa->setPosicao($_POST['posicao']);
 
-$listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
+    if (\controller\MesaController::getInstance()->gravar($mesa)){
+        header('Location: listaMesas.php');
+    }
+}
 
 ?>
 <!DOCTYPE html>
@@ -58,7 +64,7 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
 
         <!-- Nav Item - Dashboard -->
         <?php
-            include_once "menu.php";
+        include_once "menu.php";
         ?>
 
 
@@ -229,7 +235,7 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $usuarioLogado->getNome() . " " . $usuarioLogado->getSobrenome();?></span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
                             <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                         </a>
                         <!-- Dropdown - User Information -->
@@ -262,33 +268,28 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <h2>Listagem de Clientes</h2>
-                <p><a href="cadastroCliente.php" class="btn btn-success">Novo Cliente</a></p>
-                <table class="table table-hover">
-                    <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>Email</th>
-                        <th>-</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    foreach ($listaClientes as $cliente){
-                        echo "<tr>";
-                        echo "<td>".$cliente->getId()."</td>";
-                        echo "<td>".$cliente->getNome()."</td>";
-                        echo "<td>".$cliente->getTelefone()."</td>";
-                        echo "<td>".$cliente->getEmail()."</td>";
-                        echo "<td><a href='listaClientes.php?id=".$cliente->getId()."' class='btn btn-danger'>Excluir</a>&nbsp;
-                                <a href='cadastroCliente.php?id=".$cliente->getId()."' class='btn btn-dark'>Editar</a></td>";
-                        echo "</tr>";
-                    }
-                    ?>
-                    </tbody>
-                </table>
+                <h2>Cadastro de Mesa</h2>
+
+                <form action="#" method="post">
+                    <input type="hidden" name="id" value="<?php echo $mesa->getId();?>">
+                    <div class="form-group">
+                        <label for="descricao">Descrição</label>
+                        <input type="text" name="descricao" id="" class="form-control" value="<?php echo $mesa->getDescricao();?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="lugares">Lugares</label>
+                        <input type="number" name="lugares" id="" class="form-control" value="<?php echo $mesa->getLugares();?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="posicao">Posição</label>
+                        <input type="text" name="posicao" id="" class="form-control" value="<?php echo $mesa->getPosicao();?>">
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-success" type="submit" name="gravar">Gravar</button>
+                        <a href="listaMesas.php" class="btn btn-danger">Cancelar</a>
+                    </div>
+
+                </form>
 
             </div>
             <!-- /.container-fluid -->

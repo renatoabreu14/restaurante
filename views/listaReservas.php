@@ -12,7 +12,7 @@ if (isset($_GET['id'])){
 
 $usuarioLogado = unserialize($_SESSION['usuario']);
 
-$listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
+$listaClientes = array();//\controller\ClienteController::getInstance()->retornaTodos();
 
 ?>
 <!DOCTYPE html>
@@ -58,7 +58,7 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
 
         <!-- Nav Item - Dashboard -->
         <?php
-            include_once "menu.php";
+        include_once "menu.php";
         ?>
 
 
@@ -262,8 +262,8 @@ $listaClientes = \controller\ClienteController::getInstance()->retornaTodos();
             <!-- Begin Page Content -->
             <div class="container-fluid">
 
-                <h2>Listagem de Clientes</h2>
-                <p><a href="cadastroCliente.php" class="btn btn-success">Novo Cliente</a></p>
+                <h2>Listagem de Reservas</h2>
+                <p><a href="cadastroReserva.php" class="btn btn-success">Nova Reserva</a></p>
                 <table class="table table-hover">
                     <thead>
                     <tr>
