@@ -264,6 +264,18 @@ $listaClientes = array();//\controller\ClienteController::getInstance()->retorna
 
                 <h2>Listagem de Reservas</h2>
                 <p><a href="cadastroReserva.php" class="btn btn-success">Nova Reserva</a></p>
+                <form action="#" method="post" style="display: ">
+                    <div class="form-row">
+                    <div class="col-lg-2">
+                        <input type="date" name="datareserva" class="form-control">
+                    </div>
+                    <div class="col-lg-2">
+                        <button type="submit" class="btn btn-primary">Mostrar revervas</button>
+                    </div>
+                    </div>
+                </form>
+                <br>
+
                 <table class="table table-hover">
                     <thead>
                     <tr>
